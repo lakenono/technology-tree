@@ -8,3 +8,7 @@
 .settings/org.maven.ide.eclipse.prefs
 
 *.class
+
+*.resolved
+
+*.unresolved

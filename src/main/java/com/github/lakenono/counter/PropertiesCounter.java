@@ -3,27 +3,15 @@ package com.github.lakenono.counter;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Iterator;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
-import org.apache.commons.lang.time.DateFormatUtils;
 
-public class PropertiesCounter
+public class PropertiesCounter extends BaseCounter
 {
-    private PropertiesConfiguration properties;
-
-    private ConcurrentHashMap<String, AtomicLong> counters = new ConcurrentHashMap<String, AtomicLong>();
-
-    private ScheduledExecutorService scheduledExecutorService;
-
-    private boolean hasNew = false;
+    protected PropertiesConfiguration properties;
 
     public PropertiesCounter(String path) throws ConfigurationException, IOException
     {
@@ -38,44 +26,9 @@ public class PropertiesCounter
 
         // 还原持久化数据
         this.read();
-
-        // 定时保存
-        this.scheduledExecutorService = Executors.newScheduledThreadPool(1);
-        this.scheduledExecutorService.scheduleWithFixedDelay(new Runnable()
-        {
-            public void run()
-            {
-                persistence();
-            }
-        }, 0, 10, TimeUnit.SECONDS);
     }
 
-    private AtomicLong getCounter(String counter)
-    {
-        AtomicLong c = this.counters.get(counter);
-
-        if (c == null)
-        {
-            this.counters.putIfAbsent(counter, new AtomicLong());
-            c = this.counters.get(counter);
-        }
-
-        return c;
-    }
-
-    public void add(String counter)
-    {
-        this.hasNew = true;
-
-        AtomicLong atomicLong = this.getCounter(counter);
-        atomicLong.addAndGet(1);
-    }
-
-    public void addByDate(String counter)
-    {
-        this.add(DateFormatUtils.format(new Date(), "yyyyMMdd") + "." + counter);
-    }
-
+    @Override
     public void persistence()
     {
         if (!this.hasNew) // 判断是否改变
@@ -103,6 +56,7 @@ public class PropertiesCounter
         }
     }
 
+    @Override
     public void read()
     {
         @SuppressWarnings("unchecked")
@@ -115,13 +69,30 @@ public class PropertiesCounter
         }
     }
 
-    public void destroy()
-    {
-        this.persistence();
-    }
-
+    @Override
     public String toString()
     {
         return this.counters.toString();
+    }
+
+    public static void main(String[] args) throws ConfigurationException, IOException, InterruptedException
+    {
+        PropertiesCounter counter = new PropertiesCounter("/Volumes/lake/tmp/propertiesCounter.properties");
+
+        System.out.println(counter);
+
+        for (int i = 0; i < 10000; i++)
+        {
+            counter.add(i % 10 + "");
+        }
+
+        // 测试自动保存
+        Thread.sleep(20000);
+
+        System.out.println("save");
+
+        System.out.println(counter);
+
+        System.exit(0);
     }
 }
