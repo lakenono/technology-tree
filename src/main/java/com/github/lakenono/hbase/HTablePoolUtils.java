@@ -9,7 +9,7 @@ import org.apache.hadoop.hbase.client.HTableInterface;
 import org.apache.hadoop.hbase.client.HTableInterfaceFactory;
 import org.apache.hadoop.hbase.client.HTablePool;
 
-public class EucitaHTablePool
+public class HTablePoolUtils
 {
     public HTablePool get(int size)
     {
