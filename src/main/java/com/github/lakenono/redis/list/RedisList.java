@@ -1,9 +1,7 @@
 package com.github.lakenono.redis.list;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import redis.clients.jedis.Jedis;
@@ -15,7 +13,7 @@ public class RedisList
     @Test
     public void add()
     {
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 10000; i++)
         {
             redis.lpush("demo-0", i + "");
         }
