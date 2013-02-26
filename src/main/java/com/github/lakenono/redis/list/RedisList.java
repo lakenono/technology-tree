@@ -1,6 +1,8 @@
 package com.github.lakenono.redis.list;
 
+import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -8,7 +10,7 @@ import redis.clients.jedis.Jedis;
 
 public class RedisList
 {
-    private static Jedis redis;
+    private Jedis redis;
 
     @Test
     public void add()
@@ -36,15 +38,15 @@ public class RedisList
         System.out.println(length);
     }
 
-    @BeforeClass
-    public static void before()
+    @Before
+    public void before()
     {
         redis = new Jedis("192.168.2.57", 6379);
         redis.connect();
     }
 
-    @AfterClass
-    public static void after()
+    @After
+    public void after()
     {
         redis.disconnect();
     }
