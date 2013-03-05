@@ -1,5 +1,9 @@
 package com.github.lakenono.bootstrap;
 
+/*
+ * 支持kill 
+ * 但是不支持 kill -9 这里可以采用退出脚本来回避这个问题
+ */
 public class Startup
 {
     public static void main(String[] args)
