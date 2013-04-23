@@ -12,3 +12,5 @@
 *.resolved
 
 *.unresolved
+
+*.DS_Store
