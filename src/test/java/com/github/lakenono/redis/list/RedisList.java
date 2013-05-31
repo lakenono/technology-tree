@@ -9,11 +9,11 @@ import redis.clients.jedis.Jedis;
 public class RedisList
 {
     private Jedis redis;
-
+    
     @Test
     public void add()
     {
-        for (int i = 0; i < 10000; i++)
+        for (int i = 0; i < 100; i++)
         {
             redis.lpush("demo-0", i + "");
         }
@@ -30,16 +30,26 @@ public class RedisList
     }
 
     @Test
+    public void getAlways()
+    {
+        while (true)
+        {
+            String rpop = redis.rpop("demo-0");
+            System.out.println(rpop);
+        }
+    }
+
+    @Test
     public void size()
     {
-        Long length = redis.llen("demo-0");
+        Long length = this.redis.llen("Sylvanas-message");
         System.out.println(length);
     }
 
     @Before
     public void before()
     {
-        redis = new Jedis("192.168.2.57", 6379);
+        redis = new Jedis("42.96.168.163", 6379);
         redis.connect();
     }
 

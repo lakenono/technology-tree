@@ -20,7 +20,7 @@ public class RedisServer
     @Before
     public void before()
     {
-        redis = new Jedis("192.168.2.57", 6379);
+        redis = new Jedis("42.96.168.163", 6379);
         redis.connect();
     }
 
