@@ -14,3 +14,5 @@
 *.unresolved
 
 *.DS_Store
+
+target/*
