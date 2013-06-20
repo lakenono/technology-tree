@@ -7,7 +7,6 @@ import org.junit.Test;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
-import com.gargoylesoftware.htmlunit.Page;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -62,7 +61,10 @@ public class HelloWorld
         HtmlPasswordInput password = loginPage.getElementByName("password");
         HtmlAnchor submit = (HtmlAnchor) loginPage.getByXPath("/html/body/div/div[2]/div[2]/div[2]/div/div[6]/a").get(0);
 
-        username.setText("1950828049@qq.com");
+        //        username.setText("1950828049@qq.com");
+        //        password.setText("eucita");
+
+        username.setText("2842521380@qq.com");
         password.setText("eucita");
 
         System.out.println(username);
